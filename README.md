@@ -33,5 +33,6 @@ $ tree build/
 **Run**
 ```
 $ cd build/install/shuffler/bin
+$ export KOSMOS_MUSIC="/Users/user/Music"
 $ ./shuffler
 ```

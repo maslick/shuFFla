@@ -37,7 +37,6 @@ public class Shuffler {
     private String outputDir;
 
     public void saveToDb() throws Exception {
-        String resourceDir = "/Users/maslick/pmaslov/HOME/sandbox/shuffler/resources/";
         File[] directoryListing = new File(resourceDir).listFiles();
 
         if (directoryListing != null) {
@@ -84,6 +83,8 @@ public class Shuffler {
         List<Music> list = sortPlaylist(query.getResultList());
         Collections.shuffle(list);
 
+        if (list.size() == 0 ) return;
+
         String outPlsPath = outputDir + "/playlist.pls";
         createDir(outputDir);
         PrintWriter writer = new PrintWriter(outPlsPath, "UTF-8");
@@ -103,6 +104,9 @@ public class Shuffler {
         TypedQuery<Music> query = em.createNamedQuery("Music.findByRythm", Music.class)
                 .setParameter("detail", rhythm);
         List<Music> list = sortPlaylist(query.getResultList());
+        Collections.shuffle(list);
+
+        if (list.size() == 0 ) return;
 
         String outPlsPath = outputDir + "/playlist" + rhythm + ".pls";
         createDir(outputDir);

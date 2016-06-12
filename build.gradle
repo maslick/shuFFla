@@ -36,5 +36,5 @@ dependencies {
 
 }
 
-mainClassName="com.maslick.kosmosfm.main.MainProgram"
+mainClassName="com.maslick.kosmosfm.app.MainProgram"
 assemble.dependsOn installDist
