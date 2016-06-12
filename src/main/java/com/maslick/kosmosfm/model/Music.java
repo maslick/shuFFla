@@ -1,4 +1,4 @@
-package com.maslick.kosmosfm.shuffler.model;
+package com.maslick.kosmosfm.model;
 
 import javax.persistence.*;
 

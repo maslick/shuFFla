@@ -1,7 +1,7 @@
-package com.maslick.kosmosfm.shuffler;
+package com.maslick.kosmosfm;
 
+import com.maslick.kosmosfm.shuffler.Shuffler;
 import org.junit.Test;
-
 
 /**
  * Created by maslick on 11/06/16.

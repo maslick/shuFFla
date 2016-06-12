@@ -8,7 +8,7 @@
 
 <persistence-unit name="example" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.maslick.kosmosfm.shuffler.model.Music</class>
+    <class>com.maslick.kosmosfm.model.Music</class>
     <properties>
         <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
         <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:test.db" />

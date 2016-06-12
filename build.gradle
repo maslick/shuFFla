@@ -31,11 +31,10 @@ dependencies {
 
     compile group: 'com.mpatric', name: 'mp3agic', version: '0.8.4'
 
-
     provided("org.projectlombok:lombok:1.16.8")
     testCompile 'junit:junit:4.12'
 
 }
 
-mainClassName="com.maslick.kosmosfm.shuffler.MainProgram"
+mainClassName="com.maslick.kosmosfm.main.MainProgram"
 assemble.dependsOn installDist

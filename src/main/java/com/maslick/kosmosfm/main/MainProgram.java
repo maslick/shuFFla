@@ -1,5 +1,7 @@
-package com.maslick.kosmosfm.shuffler;
+package com.maslick.kosmosfm.main;
 
+
+import com.maslick.kosmosfm.shuffler.Shuffler;
 
 /**
  * Created by maslick on 12/06/16.

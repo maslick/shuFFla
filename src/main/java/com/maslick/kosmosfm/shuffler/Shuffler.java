@@ -1,6 +1,6 @@
 package com.maslick.kosmosfm.shuffler;
 
-import com.maslick.kosmosfm.shuffler.model.Music;
+import com.maslick.kosmosfm.model.Music;
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.Mp3File;
 import lombok.*;
@@ -11,12 +11,15 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by maslick on 11/06/16.
  */
+
+
+
 @Data
 @NoArgsConstructor
 public class Shuffler {
@@ -79,6 +82,7 @@ public class Shuffler {
     public void createPlaylist() throws Exception {
         TypedQuery<Music> query = em.createNamedQuery("Music.findAll", Music.class);
         List<Music> list = sortPlaylist(query.getResultList());
+        Collections.shuffle(list);
 
         String outPlsPath = outputDir + "/playlist.pls";
         createDir(outputDir);
