@@ -18,7 +18,8 @@ import lombok.NoArgsConstructor;
 @NamedQueries({
     @NamedQuery(name="Music.findAll", query = "SELECT a FROM Music a"),
     @NamedQuery(name="Music.findByName", query = "SELECT OBJECT(a) FROM Music a WHERE a.filename = :filename"),
-    @NamedQuery(name="Music.findByFullPath", query = "SELECT OBJECT(a) FROM Music a WHERE a.fullpath = :fullpath")
+    @NamedQuery(name="Music.findByFullPath", query = "SELECT OBJECT(a) FROM Music a WHERE a.fullpath = :fullpath"),
+    @NamedQuery(name="Music.findByRythm", query = "SELECT OBJECT(a) FROM Music a WHERE a.detail = :detail")
 })
 public class Music {
     @Id

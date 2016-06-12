@@ -3,6 +3,7 @@ package com.maslick.kosmosfm.shuffler;
 import com.maslick.kosmosfm.shuffler.model.Music;
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.Mp3File;
+import lombok.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,16 +17,23 @@ import java.util.List;
 /**
  * Created by maslick on 11/06/16.
  */
+@Data
+@NoArgsConstructor
 public class Shuffler {
     private static final String PERSISTENCE_UNIT_NAME = "example";
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private EntityManager em = factory.createEntityManager();
 
-    public static void main(String[] args) {
+    private String resourceDir;
+    private String outputDir;
 
-    }
-
-    private void saveToDb() throws Exception {
+    public void saveToDb() throws Exception {
         String resourceDir = "/Users/maslick/pmaslov/HOME/sandbox/shuffler/resources/";
         File[] directoryListing = new File(resourceDir).listFiles();
 
@@ -72,7 +80,28 @@ public class Shuffler {
         TypedQuery<Music> query = em.createNamedQuery("Music.findAll", Music.class);
         List<Music> list = sortPlaylist(query.getResultList());
 
-        String outPlsPath = "playlist.pls";
+        String outPlsPath = outputDir + "/playlist.pls";
+        createDir(outputDir);
+        PrintWriter writer = new PrintWriter(outPlsPath, "UTF-8");
+        writer.println("[playlist]");
+        int i;
+        for (i = 0; i < list.size(); i++) {
+            writer.println("File" + i + "=" + list.get(i).getFullpath());
+            writer.println("Title" + i + "=" + list.get(i).getSong());
+            writer.println("Length" + i + "=" + list.get(i).getLength());
+        }
+        writer.println("NumberOfEntries=" + i);
+        writer.println("Version=2");
+        writer.close();
+    }
+
+    public void createPlaylistWithRhythm(String rhythm) throws Exception {
+        TypedQuery<Music> query = em.createNamedQuery("Music.findByRythm", Music.class)
+                .setParameter("detail", rhythm);
+        List<Music> list = sortPlaylist(query.getResultList());
+
+        String outPlsPath = outputDir + "/playlist" + rhythm + ".pls";
+        createDir(outputDir);
         PrintWriter writer = new PrintWriter(outPlsPath, "UTF-8");
         writer.println("[playlist]");
         int i;
@@ -90,5 +119,26 @@ public class Shuffler {
     public List<Music> sortPlaylist(List<Music> list) {
         // implementation
         return list;
+    }
+
+    private void createDir(String directoryName) {
+        File theDir = new File(directoryName);
+
+        // if the directory does not exist, create it
+        if (!theDir.exists()) {
+            System.out.println("creating directory: " + directoryName);
+            boolean result = false;
+
+            try{
+                theDir.mkdir();
+                result = true;
+            }
+            catch(SecurityException se){
+                //handle it
+            }
+            if(result) {
+                System.out.println("DIR created");
+            }
+        }
     }
 }

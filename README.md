@@ -1,13 +1,16 @@
 *Shuffle*
 ------------------------------------
 
-You have just created a basic Java Gradle application. It provides a standard
-project structure and a basic Gradle build. Simply add your source files
-to `src/main/java`, your test cases to `src/test/java` and then you will
-be able to build your project with
 
-    gradle build
-    gradle compile
-    gradle test
+**Build/install**
+```
+$ ./gradlew build
+```
 
-Don't forget to add any extra JAR dependencies to `build.gradle`!
+**Build/install**
+
+**Run**
+```
+$ cd build/install/shuffler/bin
+$ ./shuffler
+```
