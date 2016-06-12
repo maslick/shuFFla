@@ -34,7 +34,7 @@ dependencies {
 
     provided("org.projectlombok:lombok:1.16.8")
     testCompile 'junit:junit:4.12'
-    compile fileTree(dir: '.', include: ['*.jar'])
+
 }
 
 mainClassName="com.maslick.kosmosfm.shuffler.MainProgram"
