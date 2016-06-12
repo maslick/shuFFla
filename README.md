@@ -7,8 +7,6 @@
 $ ./gradlew build
 ```
 
-**Build/install**
-
 **Run**
 ```
 $ cd build/install/shuffler/bin
