@@ -74,13 +74,14 @@ public class TestingShuffler {
         String outPlsPath = "playlist.pls";
         PrintWriter writer = new PrintWriter(outPlsPath, "UTF-8");
         writer.println("[playlist]");
-        for (int i = 0; i < list.size(); i++) {
+        int i;
+        for (i = 0; i < list.size(); i++) {
             writer.println("File" + i + "=" + list.get(i).getFullpath());
             writer.println("Title" + i + "=" + list.get(i).getSong());
             writer.println("Length" + i + "=" + list.get(i).getLength());
         }
+        writer.println("NumberOfEntries=" + i);
+        writer.println("Version=2");
         writer.close();
-
-
     }
 }
