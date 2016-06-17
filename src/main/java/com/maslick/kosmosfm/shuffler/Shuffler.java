@@ -9,8 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import java.io.File;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -78,54 +77,58 @@ public class Shuffler {
         }
     }
 
-    public void createPlaylist() throws Exception {
-        TypedQuery<Music> query = em.createNamedQuery("Music.findAll", Music.class);
-        List<Music> list = sortPlaylist(query.getResultList());
-        Collections.shuffle(list);
+    private String generatePlaylist(List<Music> list) {
+        String res = "";
 
-        if (list.size() == 0 ) return;
+        if (list.size() == 0 ) return res;
 
-        String outPlsPath = outputDir + "/playlist.pls";
-        createDir(outputDir);
-        PrintWriter writer = new PrintWriter(outPlsPath, "UTF-8");
-        writer.println("[playlist]");
+        res += "[playlist]\n";
+
         int i;
         for (i = 0; i < list.size(); i++) {
-            writer.println("File" + i + "=" + list.get(i).getFullpath());
-            writer.println("Title" + i + "=" + list.get(i).getSong());
-            writer.println("Length" + i + "=" + list.get(i).getLength());
+            res += "File" + i + "=" + list.get(i).getFullpath() + "\n";
+            res += "Title" + i + "=" + list.get(i).getSong() + "\n";
+            res += "Length" + i + "=" + list.get(i).getLength() + "\n";
         }
-        writer.println("NumberOfEntries=" + i);
-        writer.println("Version=2");
-        writer.close();
+        res += "NumberOfEntries=" + i + "\n";
+        res += "Version=2";
+        return res;
     }
 
-    public void createPlaylistWithRhythm(String rhythm) throws Exception {
+    public String getPlaylistAll() throws Exception {
+        TypedQuery<Music> query = em.createNamedQuery("Music.findAll", Music.class);
+        List<Music> list = sortPlaylist(query.getResultList());
+
+        return generatePlaylist(list);
+    }
+
+    public void createPlaylist() throws Exception {
+        String outPlsPath = outputDir + "/playlist.pls";
+        createDir(outputDir);
+        PrintStream out = new PrintStream(new FileOutputStream(outPlsPath));
+        out.print(getPlaylistAll());
+        out.close();
+    }
+
+    public String getPlaylistWithRhythm(String rhythm) throws Exception {
         TypedQuery<Music> query = em.createNamedQuery("Music.findByRythm", Music.class)
                 .setParameter("detail", rhythm);
         List<Music> list = sortPlaylist(query.getResultList());
-        Collections.shuffle(list);
 
-        if (list.size() == 0 ) return;
-
-        String outPlsPath = outputDir + "/playlist" + rhythm + ".pls";
-        createDir(outputDir);
-        PrintWriter writer = new PrintWriter(outPlsPath, "UTF-8");
-        writer.println("[playlist]");
-        int i;
-        for (i = 0; i < list.size(); i++) {
-            writer.println("File" + i + "=" + list.get(i).getFullpath());
-            writer.println("Title" + i + "=" + list.get(i).getSong());
-            writer.println("Length" + i + "=" + list.get(i).getLength());
-        }
-        writer.println("NumberOfEntries=" + i);
-        writer.println("Version=2");
-        writer.close();
+        return generatePlaylist(list);
     }
 
+    public void createPlaylistWithRhythm(String rhythm) throws Exception {
+        String outPlsPath = outputDir + "/playlist" + rhythm + ".pls";
+        createDir(outputDir);
+        PrintStream out = new PrintStream(new FileOutputStream(outPlsPath));
+        out.print(getPlaylistWithRhythm(rhythm));
+        out.close();
+    }
 
     public List<Music> sortPlaylist(List<Music> list) {
-        // implementation
+        // implementation TODO
+        Collections.shuffle(list);
         return list;
     }
 

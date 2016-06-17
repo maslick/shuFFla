@@ -1,6 +1,7 @@
 package com.maslick.kosmosfm;
 
 import com.maslick.kosmosfm.shuffler.Shuffler;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -9,6 +10,7 @@ import org.junit.Test;
 public class TestingShuffler {
 
     @Test
+    @Ignore
     public void loopOverDir() throws Exception {
         Shuffler sh = new Shuffler();
         sh.setResourceDir("/Users/maslick/pmaslov/HOME/sandbox/shuffler/resources/");
@@ -16,6 +18,7 @@ public class TestingShuffler {
     }
 
     @Test
+    @Ignore
     public void createPlaylistWithEverything() throws Exception {
         Shuffler sh = new Shuffler();
         sh.setResourceDir("/Users/maslick/pmaslov/HOME/sandbox/shuffler/resources/");
@@ -24,6 +27,7 @@ public class TestingShuffler {
     }
 
     @Test
+    @Ignore
     public void createPlaylistWithRhythm() throws Exception {
         Shuffler sh = new Shuffler();
         sh.setResourceDir("/Users/maslick/pmaslov/HOME/sandbox/shuffler/resources/");
