@@ -95,10 +95,18 @@ public class Shuffler {
         return res;
     }
 
-    public String getPlaylistAll() throws Exception {
-        TypedQuery<Music> query = em.createNamedQuery("Music.findAll", Music.class);
-        List<Music> list = sortPlaylist(query.getResultList());
+    public List<Music> getListAll() {
+        return em.createNamedQuery("Music.findAll", Music.class).getResultList();
+    }
 
+    public List<Music> getListWithRhythm(String rhythm) {
+        return em.createNamedQuery("Music.findByRythm", Music.class)
+                .setParameter("detail", rhythm)
+                .getResultList();
+    }
+
+    public String getPlaylistAll() throws Exception {
+        List<Music> list = sortPlaylist(getListAll());
         return generatePlaylist(list);
     }
 
@@ -111,10 +119,7 @@ public class Shuffler {
     }
 
     public String getPlaylistWithRhythm(String rhythm) throws Exception {
-        TypedQuery<Music> query = em.createNamedQuery("Music.findByRythm", Music.class)
-                .setParameter("detail", rhythm);
-        List<Music> list = sortPlaylist(query.getResultList());
-
+        List<Music> list = sortPlaylist(getListWithRhythm(rhythm));
         return generatePlaylist(list);
     }
 

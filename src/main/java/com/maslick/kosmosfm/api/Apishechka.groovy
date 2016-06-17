@@ -5,9 +5,9 @@ import groovy.util.logging.Slf4j
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 import javax.servlet.http.HttpServletResponse
@@ -36,13 +36,23 @@ public class Apishechka {
         println 'Started'.center(DEFAULT_PADDING, '=')
     }
 
-    @RequestMapping(value = '/getPlsAll', method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    @RequestMapping(value = '/getList', method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    def getListAll() {
+        return shuffler.getListAll()
+    }
+
+    @RequestMapping(value = '/getList/{rhythm}', method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    def getListWithRhythm(@PathVariable String rhythm) {
+        return shuffler.getListWithRhythm(rhythm)
+    }
+
+    @RequestMapping(value = '/getPls', method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
     def generateAll() {
         return shuffler.getPlaylistAll()
     }
 
-    @RequestMapping(value = '/getPlsAll.pls', method = RequestMethod.GET)
-    def generatAllpls(HttpServletResponse response) {
+    @RequestMapping(value = '/getPls.pls', method = RequestMethod.GET)
+    def generateAllpls(HttpServletResponse response) {
         response.setContentType("application/pls+xml")
         response.setHeader("Content-disposition", "inline; filename=playlist-" + (int) (Math.random() * 1000) + ".pls")
 
@@ -52,13 +62,13 @@ public class Apishechka {
         writer.close()
     }
 
-    @RequestMapping(value = '/getPlsWithRhythm', method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
-    def generatePlsWithRhythm(@RequestParam(value="id") String rhythm) {
+    @RequestMapping(value = '/getPls/{rhythm}', method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    def generatePlsWithRhythm(@PathVariable String rhythm) {
         return shuffler.getPlaylistWithRhythm(rhythm)
     }
 
-    @RequestMapping(value = '/getPlsWithRhythm.pls', method = RequestMethod.GET)
-    def generatePlsWithRhythm(HttpServletResponse response, @RequestParam(value="id") String rhythm) {
+    @RequestMapping(value = '/getPls/{rhythm}.pls', method = RequestMethod.GET)
+    def generatePlsWithRhythm(HttpServletResponse response, @PathVariable String rhythm) {
         response.setContentType("application/pls+xml")
         response.setHeader("Content-disposition", "inline; filename=playlist" + rhythm + "-" + (int) (Math.random() * 1000) + ".pls")
 
