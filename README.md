@@ -36,3 +36,17 @@ $ cd build/install/shuffler/bin
 $ export KOSMOS_MUSIC="/Users/user/Music"
 $ ./shuffler
 ```
+
+**API**
+
+``/getList``              -- get a JSON list of all songs
+
+``/getList/{rhythm}``     -- get a JSON list of songs with {rhythm} = 1..5
+
+``/getPls``               -- get a text representation of a .pls file with all songs in
+
+``/getPls.pls``           -- get a .pls file with all songs
+
+``/getPls/{rhythm}``      -- get a text representation of a .pls file with songs of a certain rhythm
+
+``/getPls/{rhythm}.pls``  -- get a .pls file with songs of certain rhythm
