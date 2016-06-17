@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 import javax.servlet.http.HttpServletResponse
@@ -43,11 +44,27 @@ public class Apishechka {
     @RequestMapping(value = '/getPlsAll.pls', method = RequestMethod.GET)
     def generatAllpls(HttpServletResponse response) {
         response.setContentType("application/pls+xml")
-        response.setHeader("Content-disposition", "inline; filename=playlist" + (int) (Math.random() * 1000) + ".pls")
+        response.setHeader("Content-disposition", "inline; filename=playlist-" + (int) (Math.random() * 1000) + ".pls")
 
         OutputStream outStream = response.getOutputStream()
         PrintWriter writer = new PrintWriter(outStream)
         writer.write(shuffler.getPlaylistAll())
+        writer.close()
+    }
+
+    @RequestMapping(value = '/getPlsWithRhythm', method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    def generatePlsWithRhythm(@RequestParam(value="id") String rhythm) {
+        return shuffler.getPlaylistWithRhythm(rhythm)
+    }
+
+    @RequestMapping(value = '/getPlsWithRhythm.pls', method = RequestMethod.GET)
+    def generatePlsWithRhythm(HttpServletResponse response, @RequestParam(value="id") String rhythm) {
+        response.setContentType("application/pls+xml")
+        response.setHeader("Content-disposition", "inline; filename=playlist" + rhythm + "-" + (int) (Math.random() * 1000) + ".pls")
+
+        OutputStream outStream = response.getOutputStream()
+        PrintWriter writer = new PrintWriter(outStream)
+        writer.write(shuffler.getPlaylistWithRhythm(rhythm))
         writer.close()
     }
 }
