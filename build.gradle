@@ -8,21 +8,24 @@ buildscript {
     }
     dependencies {
         classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:2.2.+'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE'
     }
 }
 
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'provided-base'
 apply plugin: 'application'
+apply plugin: 'spring-boot'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
 }
-
 
 dependencies {
     compile group: 'org.eclipse.persistence', name: 'org.eclipse.persistence.jpa', version: '2.6.3'
@@ -31,10 +34,23 @@ dependencies {
 
     compile group: 'com.mpatric', name: 'mp3agic', version: '0.8.4'
 
+    compile("org.springframework.boot:spring-boot-starter-web:1.3.5.RELEASE") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty:1.3.5.RELEASE")
+
     provided("org.projectlombok:lombok:1.16.8")
     testCompile 'junit:junit:4.12'
-
+    compile 'org.codehaus.groovy:groovy-all:2.4.5'
 }
 
-mainClassName="com.maslick.kosmosfm.app.MainProgram"
+springBoot {
+    executable = true
+}
+
+
+//mainClassName="com.maslick.kosmosfm.app.MainProgram"
+mainClassName="com.maslick.kosmosfm.api.Apishechka"
+sourceSets.main.groovy.srcDirs += ["src/main/java"]
+
 assemble.dependsOn installDist
